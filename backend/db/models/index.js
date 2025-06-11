@@ -30,8 +30,14 @@ fs
         );
     })
     .forEach((file) => {
-        const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
-        db[model.name] = model;
+        // Skip empty or invalid model files
+        const modelFactory = require(path.join(__dirname, file));
+        if (typeof modelFactory === 'function') {
+            const model = modelFactory(sequelize, Sequelize.DataTypes);
+            if (model && model.name) {
+                db[model.name] = model;
+            }
+        }
     });
 
 Object.keys(db).forEach(modelName => {

@@ -62,6 +62,8 @@ router.delete('/',(_req, res) => {
     return res.json({ message: 'success' });
 });
 
-
+router.all('*', (req, res) => {
+    res.status(404).end();
+});
 
 module.exports = router;
