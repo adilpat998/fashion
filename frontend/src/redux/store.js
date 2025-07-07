@@ -1,15 +1,12 @@
 import {
     legacy_createStore as createStore,
     applyMiddleware,
-    compose,
-    combineReducers,
+    compose
 } from "redux";
 import thunk from "redux-thunk";
-import sessionReducer from "./session";
 
-const rootReducer = combineReducers({
-    session: sessionReducer,
-});
+// No reducers needed for admin-only mode
+const rootReducer = (state = {}) => state;
 
 let enhancer;
 if (import.meta.env.MODE === "production") {

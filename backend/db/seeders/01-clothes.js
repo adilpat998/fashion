@@ -10,6 +10,7 @@ module.exports = {
         imageUrl: "https://adil-fashion-app-bucket.s3.us-east-2.amazonaws.com/1.jpg",
         sizes: "S,M,L",
         price: 49.99,
+        genreId: 1, // Dresses
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -20,6 +21,7 @@ module.exports = {
         imageUrl: "https://adil-fashion-app-bucket.s3.us-east-2.amazonaws.com/2.jpg",
         sizes: "M,L,XL",
         price: 89.99,
+        genreId: 2, // Blazers
         createdAt: new Date(),
         updatedAt: new Date()
       }

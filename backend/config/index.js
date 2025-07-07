@@ -14,3 +14,5 @@ module.exports = {
         expiresIn: process.env.JWT_EXPIRES_IN
     }
 };
+
+console.log('Using DB_FILE:', process.env.DB_FILE);

@@ -1,0 +1,162 @@
+:root {
+  --pink: #f7c6d9;
+  --sage: #b7c9a8;
+  --dark: #2d2d2d;
+  --white: #fff;
+  --accent: #e9e5d6;
+  --radius: 22px;
+}
+
+.admin-manager-root {
+  background: linear-gradient(120deg, var(--pink) 60%, var(--sage) 100%);
+  min-height: 100vh;
+  padding: 2.5rem 0 3rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  color: var(--dark);
+  margin-bottom: 1.5rem;
+  font-size: 2.2rem;
+}
+
+.add-btn {
+  background: var(--sage);
+  color: var(--dark);
+  border: none;
+  border-radius: 14px;
+  padding: 0.7em 1.5em;
+  font-size: 1.1rem;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 12px rgba(183, 201, 168, 0.13);
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+}
+.add-btn:hover {
+  background: var(--pink);
+  color: var(--white);
+}
+
+.add-form {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 32px var(--pink), 0 2px 8px var(--sage);
+  padding: 2em 2.5em 1.5em 2.5em;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+  min-width: 320px;
+  max-width: 95vw;
+}
+.add-form input[type="text"],
+.add-form input[type="number"],
+.add-form input[type="file"] {
+  padding: 0.7em 1em;
+  border-radius: 10px;
+  border: 1.5px solid var(--sage);
+  font-size: 1.1rem;
+  width: 100%;
+  max-width: 260px;
+}
+.add-form button {
+  background: var(--pink);
+  color: var(--dark);
+  border: none;
+  border-radius: 10px;
+  padding: 0.7em 1.5em;
+  font-size: 1.1rem;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+}
+.add-form button:hover {
+  background: var(--sage);
+  color: var(--white);
+}
+.add-form .error {
+  color: #d33;
+  font-size: 1rem;
+  margin-top: 0.5em;
+}
+.add-form .success {
+  color: var(--sage);
+  font-size: 1rem;
+  margin-top: 0.5em;
+}
+
+.clothes-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 2rem;
+  width: 95vw;
+  max-width: 1200px;
+}
+.clothing-admin-card {
+  background: linear-gradient(135deg, var(--white) 80%, var(--accent) 100%);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 32px var(--pink), 0 2px 8px var(--sage);
+  padding: 1.5rem 1.2rem 1.2rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid var(--sage);
+  position: relative;
+}
+.clothing-admin-card img {
+  width: 100%;
+  max-width: 200px;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 16px;
+  margin-bottom: 1.2rem;
+  background: linear-gradient(135deg, var(--sage) 60%, var(--pink) 100%);
+  box-shadow: 0 2px 12px rgba(183, 201, 168, 0.13);
+  border: 1.5px solid var(--pink);
+}
+.clothing-admin-card .delete-btn {
+  background: #d33;
+  color: var(--white);
+  border: none;
+  border-radius: 10px;
+  padding: 0.5em 1.2em;
+  font-size: 1rem;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  margin-top: 0.7em;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+}
+.clothing-admin-card .delete-btn:hover {
+  background: var(--pink);
+  color: var(--dark);
+}
+
+@media (max-width: 700px) {
+  .admin-manager-root {
+    padding: 1.2rem 0 2rem 0;
+  }
+  .add-form {
+    padding: 1em 0.5em 1em 0.5em;
+    min-width: 0;
+    max-width: 100vw;
+  }
+  .clothes-list {
+    gap: 1rem;
+    padding: 0 0.5rem;
+  }
+  .clothing-admin-card {
+    padding: 1rem 0.5rem 0.7rem 0.5rem;
+  }
+  .clothing-admin-card img {
+    max-width: 120px;
+    height: 120px;
+  }
+}

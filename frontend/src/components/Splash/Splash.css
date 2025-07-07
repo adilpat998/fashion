@@ -1,9 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+
 :root {
   --pink: #f7c6d9;
   --sage: #b7c9a8;
   --dark: #2d2d2d;
   --white: #fff;
   --accent: #e9e5d6;
+  --gold: #e6c200;
+  --gold-light: #fffbe6;
   --shadow: 0 8px 32px rgba(183, 201, 168, 0.18), 0 2px 8px var(--pink);
   --radius: 22px;
 }
@@ -23,97 +27,135 @@ body {
   padding-bottom: 40px;
   position: relative;
   overflow-x: hidden;
+  padding-top: 300px; /* Further increased to ensure content is well below nav */
 }
 
 .splash-header {
-  font-family: 'Playfair Display', serif;
-  font-size: 3.5rem;
-  color: var(--dark);
+  font-family: 'Great Vibes', 'Playfair Display', serif;
+  font-size: 3.2rem;
+  color: #bfa14a;
   margin: 2.5rem 0 2rem 0;
-  letter-spacing: 3px;
+  letter-spacing: 2.5px;
   background: var(--white);
-  border: 3px solid var(--pink);
-  border-radius: 18px;
+  border: 2.5px solid #e6c200;
+  border-radius: 22px;
   padding: 0.7em 2.5em;
-  box-shadow: 0 4px 24px var(--pink), 0 2px 8px var(--sage);
-  text-shadow: 0 2px 8px var(--sage);
-  z-index: 2;
+  box-shadow: 0 4px 24px #e6c20033, 0 2px 8px var(--sage);
+  text-shadow: 0 2px 8px #fffbe6, 0 1px 2px #e6c200;
+  font-weight: 400;
+  transition: all 0.2s;
 }
 
 .clothes-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 2.5rem;
-  width: 95vw;
+  width: 100%;
   max-width: 1300px;
   margin: 0 auto;
   padding-bottom: 2rem;
+  justify-items: center;
 }
 
 .clothing-card {
-  background: linear-gradient(135deg, var(--white) 80%, var(--accent) 100%);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.07), 0 1.5px 6px var(--accent);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 2rem 1.2rem 1.2rem 1.2rem;
-  transition: transform 0.22s cubic-bezier(.4,2,.6,1), box-shadow 0.22s;
-  border: 2px solid var(--sage);
+  align-items: stretch;
+  padding: 0;
   position: relative;
+  width: 100%;
+  max-width: 320px;
+  min-width: 220px;
+  min-height: unset;
+  border: 1.5px solid #ececec;
+  transition: box-shadow 0.18s, border-color 0.18s, transform 0.18s;
 }
+
 .clothing-card:hover {
-  transform: translateY(-10px) scale(1.035);
-  box-shadow: 0 16px 48px rgba(247, 198, 217, 0.22), 0 4px 16px var(--sage);
-  border-color: var(--pink);
-  z-index: 2;
+  box-shadow: 0 8px 32px rgba(183, 201, 168, 0.18), 0 2px 8px var(--pink);
+  border-color: var(--gold);
+  transform: translateY(-4px) scale(1.025);
 }
+
+.clothing-image-wrapper {
+  width: 100%;
+  aspect-ratio: 4/5;
+  background: #f8f8f8;
+  border-radius: 18px 18px 0 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1.5px solid #ececec;
+}
+
 .clothing-image {
   width: 100%;
-  max-width: 230px;
-  height: 270px;
+  height: 100%;
   object-fit: cover;
-  border-radius: 16px;
-  margin-bottom: 1.2rem;
-  background: linear-gradient(135deg, var(--sage) 60%, var(--pink) 100%);
-  box-shadow: 0 2px 12px rgba(183, 201, 168, 0.13);
-  border: 1.5px solid var(--pink);
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  margin: 0;
+  aspect-ratio: 4/5;
+  transition: transform 0.18s;
 }
+
+.clothing-card:hover .clothing-image {
+  transform: scale(1.04);
+}
+
 .clothing-info {
-  text-align: center;
-  width: 100%;
+  background: #fff;
+  border-radius: 0 0 18px 18px;
+  box-shadow: none;
+  border: none;
+  text-align: left;
+  color: #222;
   font-family: 'Montserrat', 'Playfair Display', serif, sans-serif;
+  padding: 1.1rem 1.1rem 1.2rem 1.1rem;
+  width: 100%;
+  margin-top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
 }
+
 .clothing-name {
-  font-size: 1.4rem;
-  font-weight: bold;
-  color: var(--dark);
-  margin-bottom: 0.5rem;
-  font-family: 'Playfair Display', serif;
-  letter-spacing: 1px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 0.2rem;
+  letter-spacing: 0.5px;
+  font-family: 'Montserrat', 'Playfair Display', serif;
 }
+
 .clothing-description {
-  color: #555;
   font-size: 1.05rem;
-  margin-bottom: 0.5rem;
-  min-height: 2.2em;
+  color: #666;
+  margin-bottom: 0.2rem;
   font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
 }
+
 .clothing-price {
-  color: var(--pink);
   font-size: 1.15rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-  letter-spacing: 0.5px;
+  color: #bfa14a;
+  font-weight: 700;
+  margin-bottom: 0.1rem;
   font-family: 'Montserrat', sans-serif;
 }
+
 .clothing-sizes {
-  color: var(--sage);
-  font-size: 1.02rem;
-  margin-bottom: 0.5rem;
-  letter-spacing: 0.5px;
+  font-size: 1rem;
+  color: #888;
   font-family: 'Montserrat', sans-serif;
+  margin-bottom: 0;
+  letter-spacing: 0.2px;
 }
 
 .admin-login-btn {
@@ -135,6 +177,29 @@ body {
 }
 .admin-login-btn:hover {
   background: var(--sage);
+  color: var(--white);
+  box-shadow: 0 4px 24px var(--pink), 0 2px 8px var(--sage);
+}
+
+.admin-manage-btn {
+  position: fixed;
+  top: 28px;
+  left: 38px;
+  background: var(--sage);
+  color: var(--dark);
+  border: none;
+  border-radius: 18px;
+  padding: 0.7em 1.5em;
+  font-size: 1.1rem;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  box-shadow: 0 2px 12px rgba(183, 201, 168, 0.13);
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+  z-index: 100;
+}
+.admin-manage-btn:hover {
+  background: var(--pink);
   color: var(--white);
   box-shadow: 0 4px 24px var(--pink), 0 2px 8px var(--sage);
 }
@@ -210,10 +275,68 @@ body {
   font-size: 1rem;
 }
 
+.genre-tabs-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto 2.2rem auto;
+  padding: 0.5rem 0 0.5rem 0;
+  position: relative;
+  top: -3.5rem; /* Move up by about 20% of typical card height */
+  z-index: 10;
+  gap: 0.5rem;
+  overflow-x: auto;
+  white-space: nowrap;
+  border-bottom: 1.5px solid #ececec;
+  background: none;
+}
+
+.genre-tab {
+  background: #fff;
+  color: #b08d57;
+  border: 1.5px solid #ececec;
+  border-radius: 18px 18px 0 0;
+  font-family: 'Montserrat', 'Playfair Display', serif, sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 0.7em 2.2em;
+  margin: 0;
+  cursor: pointer;
+  transition: background 0.16s, color 0.16s, border-color 0.16s, padding 0.16s;
+  box-shadow: 0 2px 8px rgba(183, 201, 168, 0.08);
+  white-space: nowrap;
+  flex-shrink: 1;
+}
+
+.genre-tab.selected, .genre-tab:active {
+  background: #f7c6d9;
+  color: #bfa14a;
+  border-color: #e6c200;
+  z-index: 2;
+}
+
+.genre-tab:hover {
+  background: #fffbe6;
+  color: #e6c200;
+  border-color: #e6c200;
+}
+
+.genre-tabs-row {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.genre-tabs-row::-webkit-scrollbar {
+  display: none;
+}
+
 @media (max-width: 700px) {
   .splash-header {
-    font-size: 2.1rem;
-    padding: 0.5em 1em;
+    font-size: 2rem;
+    padding: 0.5em 1.2em;
   }
   .clothes-grid {
     gap: 1.2rem;
@@ -221,9 +344,25 @@ body {
   }
   .clothing-card {
     padding: 1.1rem 0.5rem 0.7rem 0.5rem;
+    min-width: 180px;
+    max-width: 98vw;
+  }
+  .clothing-image-wrapper {
+    max-width: 98vw;
+    min-width: 140px;
   }
   .clothing-image {
-    max-width: 140px;
-    height: 160px;
+    max-width: 98vw;
+    min-width: 140px;
   }
+  .genre-tab {
+    padding: 0.7em 1.1em;
+    font-size: 1rem;
+  }
+}
+
+.genre-tab {
+  min-width: 0;
+  padding-left: clamp(0.7em, 2vw, 2.2em);
+  padding-right: clamp(0.7em, 2vw, 2.2em);
 }

@@ -1,3 +1,5 @@
+require('dotenv').config({ path: __dirname + '/../.env' });
+
 const config = require('./index');
 
 const db = config.db;
