@@ -34,6 +34,10 @@ module.exports = {
         type: Sequelize.DECIMAL(10,2),
         allowNull: true
       },
+      colors: {
+        type: Sequelize.STRING, // Use STRING for SQLite compatibility
+        allowNull: true
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

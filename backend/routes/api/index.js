@@ -8,14 +8,14 @@ const { multipleMulterUpload, multiplePublicFileUpload, singleMulterUpload, sing
 router.use('/admin', adminRouter);
 
 
-// Get all clothes with images and genre
+// Get all clothes with images and category
 router.get('/clothes', async (req, res) => {
-  const { genreId } = req.query;
+  const { categoryId } = req.query;
   const include = [
     { model: ClothesImages, as: 'images' },
-    { association: 'genre' }
+    { association: 'category' }
   ];
-  const where = genreId ? { genreId } : undefined;
+  const where = categoryId ? { categoryId } : undefined;
   const clothes = await Clothes.findAll({
     where,
     include,
@@ -26,12 +26,12 @@ router.get('/clothes', async (req, res) => {
 
 // Add a new clothing item (admin only, supports single image upload)
 router.post('/clothes', requireAdmin, singleMulterUpload('image'), async (req, res) => {
-  const { name, description, sizes, price, genreId } = req.body;
+  const { name, description, sizes, price, categoryId } = req.body;
   let imageUrl = '';
   if (req.file) {
     imageUrl = await singlePublicFileUpload(req.file);
   }
-  const newClothes = await Clothes.create({ name, description, sizes, price, imageUrl, genreId });
+  const newClothes = await Clothes.create({ name, description, sizes, price, imageUrl, categoryId });
   // Optionally, add the image to ClothesImages if uploaded
   if (imageUrl) {
     await ClothesImages.create({ clothesId: newClothes.id, imageUrl });
@@ -50,10 +50,10 @@ router.post('/clothes/:id/images', requireAdmin, multipleMulterUpload('images'),
   res.status(201).json(images);
 });
 
-// Edit/update a clothing item (admin only, supports image replacement and genre change)
+// Edit/update a clothing item (admin only, supports image replacement and category change)
 router.put('/clothes/:id', requireAdmin, singleMulterUpload('image'), async (req, res) => {
   const { id } = req.params;
-  const { name, description, sizes, price, genreId } = req.body;
+  const { name, description, sizes, price, categoryId } = req.body;
   const clothing = await Clothes.findByPk(id);
   if (!clothing) return res.status(404).json({ error: 'Clothing item not found' });
 
@@ -65,7 +65,7 @@ router.put('/clothes/:id', requireAdmin, singleMulterUpload('image'), async (req
     await ClothesImages.create({ clothesId: clothing.id, imageUrl });
   }
 
-  await clothing.update({ name, description, sizes, price, imageUrl, genreId });
+  await clothing.update({ name, description, sizes, price, imageUrl, categoryId });
   res.json(clothing);
 });
 
@@ -95,21 +95,44 @@ router.delete('/clothes/images/:imageId', requireAdmin, async (req, res) => {
   res.json({ success: true });
 });
 
-// List all genres
-router.get('/genres', async (req, res) => {
-  const { Genre } = require('../../db/models');
-  const genres = await Genre.findAll({ order: [['name', 'ASC']] });
-  res.json(genres);
+// List all categories
+router.get('/categories', async (req, res) => {
+  const { Category } = require('../../db/models');
+  const categories = await Category.findAll({ order: [['name', 'ASC']] });
+  res.json(categories);
 });
 
-// Create a new genre (admin only)
-router.post('/genres', requireAdmin, async (req, res) => {
-  const { Genre } = require('../../db/models');
+// Create a new category (admin only)
+router.post('/categories', requireAdmin, async (req, res) => {
+  const { Category } = require('../../db/models');
   const { name } = req.body;
-  if (!name) return res.status(400).json({ error: 'Genre name required' });
-  const [genre, created] = await Genre.findOrCreate({ where: { name } });
-  if (!created) return res.status(409).json({ error: 'Genre already exists' });
-  res.status(201).json(genre);
+  if (!name) return res.status(400).json({ error: 'Category name required' });
+  const [category, created] = await Category.findOrCreate({ where: { name } });
+  if (!created) return res.status(409).json({ error: 'Category already exists' });
+  res.status(201).json(category);
+});
+
+// Delete a category (admin only)
+router.delete('/categories/:id', requireAdmin, async (req, res) => {
+  const { Category, Clothes } = require('../../db/models');
+  const { id } = req.params;
+  // Optionally, set categoryId to null for clothes in this category
+  await Clothes.update({ categoryId: null }, { where: { categoryId: id } });
+  await Category.destroy({ where: { id } });
+  res.json({ success: true });
+});
+
+// Edit a category (admin only)
+router.put('/categories/:id', requireAdmin, async (req, res) => {
+  const { Category } = require('../../db/models');
+  const { id } = req.params;
+  const { name } = req.body;
+  if (!name) return res.status(400).json({ error: 'Category name required' });
+  const category = await Category.findByPk(id);
+  if (!category) return res.status(404).json({ error: 'Category not found' });
+  category.name = name;
+  await category.save();
+  res.json(category);
 });
 
 

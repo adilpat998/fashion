@@ -2,7 +2,7 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Genres", {
+    await queryInterface.createTable("Categories", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -23,11 +23,11 @@ module.exports = {
         type: Sequelize.DATE,
       },
     });
-    await queryInterface.addColumn("Clothes", "genreId", {
+    await queryInterface.addColumn("Clothes", "categoryId", {
       type: Sequelize.INTEGER,
       allowNull: true,
       references: {
-        model: "Genres",
+        model: "Categories",
         key: "id",
       },
       onUpdate: "CASCADE",
@@ -35,7 +35,7 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.removeColumn("Clothes", "genreId");
-    await queryInterface.dropTable("Genres");
+    await queryInterface.removeColumn("Clothes", "categoryId");
+    await queryInterface.dropTable("Categories");
   },
 };

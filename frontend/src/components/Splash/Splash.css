@@ -12,6 +12,13 @@
   --radius: 22px;
 }
 
+html, body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
 body {
   font-family: 'Montserrat', 'Playfair Display', serif, sans-serif;
   background: linear-gradient(120deg, var(--pink) 60%, var(--sage) 100%);
@@ -20,14 +27,64 @@ body {
 
 .splash-root {
   min-height: 100vh;
-  background: linear-gradient(120deg, var(--pink) 60%, var(--sage) 100%);
+  width: 100%; /* changed from 100vw to 100% */
+  background: linear-gradient(90deg, #b7c9a8 0%, #b7c9a8 10%, #ffd6e0 40%, #ffd6e0 60%, #b7c9a8 90%, #b7c9a8 100%);
+  background-attachment: fixed;
+  background-size: cover;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 40px;
+  box-sizing: border-box;
+}
+
+.category-section-title {
+  font-family: 'Great Vibes', 'Playfair Display', serif;
+  font-size: 7rem;
+  font-stretch: expanded;
+  letter-spacing: 0.18em;
+  color: #bfa14a;
+  margin: 1em 0 1em 0;
+  background: var(--white);
+  border: 2.5px solid #e6c200;
+  border-radius: 22px;
+  padding: 0.7em 2.5em;
+  box-shadow: 0 4px 24px #e6c20033, 0 2px 8px var(--sage);
+  text-shadow: 0 2px 8px #fffbe6, 0 1px 2px #e6c200;
+  font-weight: 400;
+  display: block;
   position: relative;
-  overflow-x: hidden;
-  padding-top: 300px; /* Further increased to ensure content is well below nav */
+  z-index: 2;
+  transition: all 0.2s;
+  text-align: center;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 90vw;
+  word-spacing: 0.25em;
+}
+
+.category-section-title::after {
+  display: none;
+}
+
+.category-section-title span {
+  background: linear-gradient(90deg, #f6e27a 0%, #f9d423 50%, #ffb347 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 1.15em;
+  font-weight: 900;
+  padding: 0 0.2em;
+}
+
+@media (max-width: 900px) {
+  .category-section-title {
+    font-size: 3rem;
+    padding: 0.4em 1.2em;
+    border-radius: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    letter-spacing: 0.09em;
+  }
 }
 
 .splash-header {
@@ -48,13 +105,37 @@ body {
 
 .clothes-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(5, 1fr);
   gap: 2.5rem;
-  width: 100%;
-  max-width: 1300px;
+  width: 95vw;
+  max-width: 1800px;
   margin: 0 auto;
   padding-bottom: 2rem;
   justify-items: center;
+  box-sizing: border-box;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+@media (max-width: 1400px) {
+  .clothes-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+@media (max-width: 1100px) {
+  .clothes-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 800px) {
+  .clothes-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 600px) {
+  .clothes-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .clothing-card {
@@ -68,8 +149,8 @@ body {
   padding: 0;
   position: relative;
   width: 100%;
-  max-width: 320px;
-  min-width: 220px;
+  max-width: 100%;
+  min-width: 0;
   min-height: unset;
   border: 1.5px solid #ececec;
   transition: box-shadow 0.18s, border-color 0.18s, transform 0.18s;
@@ -275,7 +356,7 @@ body {
   font-size: 1rem;
 }
 
-.genre-tabs-row {
+.category-tabs-row, .nav-category-tabs-row, .nav-category-tabs-row-spaced {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -285,16 +366,19 @@ body {
   margin: 0 auto 2.2rem auto;
   padding: 0.5rem 0 0.5rem 0;
   position: relative;
-  top: -3.5rem; /* Move up by about 20% of typical card height */
   z-index: 10;
   gap: 0.5rem;
   overflow-x: auto;
   white-space: nowrap;
   border-bottom: 1.5px solid #ececec;
   background: none;
+  flex-wrap: nowrap;
+  scrollbar-width: none;
 }
-
-.genre-tab {
+.category-tabs-row::-webkit-scrollbar {
+  display: none;
+}
+.category-tab {
   background: #fff;
   color: #b08d57;
   border: 1.5px solid #ececec;
@@ -309,28 +393,26 @@ body {
   box-shadow: 0 2px 8px rgba(183, 201, 168, 0.08);
   white-space: nowrap;
   flex-shrink: 1;
+  min-width: 0;
+  padding-left: clamp(0.7em, 2vw, 2.2em);
+  padding-right: clamp(0.7em, 2vw, 2.2em);
 }
-
-.genre-tab.selected, .genre-tab:active {
+.category-tab.selected, .category-tab:active {
   background: #f7c6d9;
   color: #bfa14a;
   border-color: #e6c200;
   z-index: 2;
 }
-
-.genre-tab:hover {
+.category-tab:hover {
   background: #fffbe6;
   color: #e6c200;
   border-color: #e6c200;
 }
-
-.genre-tabs-row {
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-.genre-tabs-row::-webkit-scrollbar {
-  display: none;
+@media (max-width: 700px) {
+  .category-tab {
+    padding: 0.7em 1.1em;
+    font-size: 1rem;
+  }
 }
 
 @media (max-width: 700px) {
@@ -365,4 +447,100 @@ body {
   min-width: 0;
   padding-left: clamp(0.7em, 2vw, 2.2em);
   padding-right: clamp(0.7em, 2vw, 2.2em);
+}
+
+.about-shadmani-section {
+  width: 100%;
+  max-width: 1100px; /* larger width */
+  height: calc(1100px * 493 / 740); /* maintain 740:493 ratio */
+  min-height: unset;
+  aspect-ratio: unset;
+  overflow: hidden; /* ensure text stays inside the box */
+  margin: 0 auto 2.5em auto;
+  background: linear-gradient(rgba(255,255,255,0.60), rgba(255,255,255,0.60)), url('https://img.freepik.com/free-photo/beautiful-tropical-beach-sea-ocean-with-white-cloud-blue-sky-copyspace_74190-8663.jpg?semt=ais_hybrid&w=740') center/cover no-repeat;
+  border: 2.5px solid #e6c200;
+  border-radius: 32px;
+  box-shadow: 0 4px 24px #e6c20022, 0 2px 8px var(--sage);
+  padding: 2.5em 2.5em 2em 2.5em;
+  text-align: center;
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Playfair Display', serif;
+  box-sizing: border-box;
+  background-blend-mode: lighten;
+}
+
+.about-shadmani-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.60); /* reduced from 0.75 to 0.60 for more transparency */
+  z-index: 0;
+  opacity: 0.22; /* slightly more transparent */
+}
+
+.about-shadmani-title,
+.about-shadmani-bio {
+  position: relative;
+  z-index: 1;
+}
+
+.about-shadmani-title {
+  font-size: 2.7rem;
+  color: #bfa14a;
+  font-family: 'Great Vibes', 'Playfair Display', serif;
+  margin-bottom: 0.7em;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+}
+
+.about-shadmani-bio {
+  font-size: 1.25rem;
+  color: #2d2d2d;
+  line-height: 1.7;
+  max-width: 90%; /* allow more width for text, but keep inside box */
+  margin: 0 auto;
+  font-family: 'Playfair Display', serif;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  text-align: center;
+  background: none !important;
+  overflow-wrap: break-word;
+  overflow: hidden;
+}
+
+.nav-spacer {
+  width: 100vw;
+  min-height: 90px;
+  height: 222px;
+  background: transparent;
+  display: block;
+}
+
+@media (max-width: 900px) {
+  .about-shadmani-section {
+    padding: 1.2em 0.7em 1em 0.7em;
+    border-radius: 18px;
+  }
+  .about-shadmani-title {
+    font-size: 1.5rem;
+  }
+  .about-shadmani-bio {
+    font-size: 1rem;
+    padding: 0 0.2em;
+  }
+}
+
+@media (max-width: 1200px) {
+  .about-shadmani-section {
+    max-width: 98vw;
+    height: calc(98vw * 493 / 740);
+    min-height: 260px;
+    aspect-ratio: 740/493;
+    padding: 1.2em 0.7em 1em 0.7em;
+    border-radius: 18px;
+  }
 }
