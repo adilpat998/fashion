@@ -1,6 +1,44 @@
 const router = require('express').Router();
 const { Clothes, ClothesImages } = require('../../db/models');
 const adminRouter = require('./admin.js');
+
+// Stripe setup
+const stripeSecret = process.env.STRIPE_SECRET_KEY;
+let stripe;
+if (stripeSecret) {
+  stripe = require('stripe')(stripeSecret);
+}
+
+// Create Stripe Checkout session for a clothing item
+router.post('/checkout', async (req, res) => {
+  if (!stripe) return res.status(500).json({ error: 'Stripe not configured' });
+  const { name, price, imageUrl, id } = req.body;
+  if (!name || !price || !id) return res.status(400).json({ error: 'Missing item info' });
+  try {
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name,
+              images: imageUrl ? [imageUrl] : undefined,
+            },
+            unit_amount: Math.round(Number(price) * 100),
+          },
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      success_url: `${req.headers.origin || 'http://localhost:5173'}/success`,
+      cancel_url: `${req.headers.origin || 'http://localhost:5173'}/clothes/${id}`,
+    });
+    res.json({ url: session.url });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 const { requireAdmin } = require('./admin.js');
 const { multipleMulterUpload, multiplePublicFileUpload, singleMulterUpload, singlePublicFileUpload, deleteS3File } = require('../../utils/awsS3');
 
@@ -22,6 +60,20 @@ router.get('/clothes', async (req, res) => {
     order: [['createdAt', 'DESC']]
   });
   res.json(clothes);
+});
+
+
+// Get a single clothing item by id with images and category
+router.get('/clothes/:id', async (req, res) => {
+  const { id } = req.params;
+  const item = await Clothes.findByPk(id, {
+    include: [
+      { model: ClothesImages, as: 'images' },
+      { association: 'category' }
+    ]
+  });
+  if (!item) return res.status(404).json({ error: 'Clothing item not found' });
+  res.json(item);
 });
 
 // Add a new clothing item (admin only, supports single image upload)

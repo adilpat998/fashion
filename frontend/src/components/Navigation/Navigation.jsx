@@ -1,9 +1,11 @@
 import "./Navigation.css";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+
 
 function Navigation() {
   const navigate = useNavigate();
+  const location = useLocation();
   const adminLoggedIn = !!localStorage.getItem('adminToken');
   const [categories, setCategories] = useState([]);
 
@@ -58,12 +60,15 @@ function Navigation() {
           {adminLoggedIn && (
             <button className="nav-btn" onClick={() => navigate('/admin/manage')}>Manage</button>
           )}
-          <button className="nav-btn nav-admin" onClick={handleAdminClick}>
-            {adminLoggedIn ? 'Log Out (Admin)' : 'Admin Login'}
-          </button>
+          {/* Only show Admin Login/Logout on home page */}
+          {location.pathname === '/' && (
+            <button className="nav-btn nav-admin" onClick={handleAdminClick}>
+              {adminLoggedIn ? 'Log Out (Admin)' : 'Admin Login'}
+            </button>
+          )}
         </div>
         <div className="nav-title-wrapper nav-title-compact">
-          <h1 className="splash-header nav-title">Shadmani Fashion</h1>
+          <h1 className="splash-header">Shadmani Fashion</h1>
         </div>
         <div className="nav-right-placeholder"></div>
         {categories.length > 0 && (

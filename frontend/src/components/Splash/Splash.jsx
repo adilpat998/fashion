@@ -1,7 +1,9 @@
 import { useEffect, useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Splash.css';
 
 const Splash = () => {
+  const navigate = useNavigate();
   const [clothes, setClothes] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -120,7 +122,7 @@ const Splash = () => {
                     <div className="no-items">No items in this category.</div>
                   ) : (
                     clothesByCategory[category.id].map(item => (
-                      <div className="clothing-card" key={item.id}>
+                      <div className="clothing-card" key={item.id} onClick={() => navigate(`/clothes/${item.id}`)} style={{cursor:'pointer'}}>
                         <div className="clothing-image-wrapper">
                           <img
                             className="clothing-image"

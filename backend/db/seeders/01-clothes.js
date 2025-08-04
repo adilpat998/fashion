@@ -224,6 +224,67 @@ module.exports = {
         colors: "pink,green",
         createdAt: new Date(),
         updatedAt: new Date()
+      },
+      // More 'New' products for spacing test
+      {
+        id: 19,
+        name: "New Arrival Kurta",
+        description: "Trendy new kurta for the season.",
+        imageUrl: "https://adil-fashion-app-bucket.s3.us-east-2.amazonaws.com/new1.jpg",
+        sizes: "S,M,L",
+        price: 54.99,
+        categoryId: 6, // New
+        colors: "blue,white",
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        id: 20,
+        name: "New Palazzo Pants",
+        description: "Wide-leg palazzo pants in new colors.",
+        imageUrl: "https://adil-fashion-app-bucket.s3.us-east-2.amazonaws.com/new2.jpg",
+        sizes: "M,L,XL",
+        price: 39.99,
+        categoryId: 6, // New
+        colors: "black,beige",
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        id: 21,
+        name: "New Festive Dupatta",
+        description: "Colorful dupatta for festive occasions.",
+        imageUrl: "https://adil-fashion-app-bucket.s3.us-east-2.amazonaws.com/new3.jpg",
+        sizes: "One Size",
+        price: 24.99,
+        categoryId: 6, // New
+        colors: "red,gold",
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        id: 22,
+        name: "New Embroidered Shawl",
+        description: "Elegant shawl with new embroidery.",
+        imageUrl: "https://adil-fashion-app-bucket.s3.us-east-2.amazonaws.com/new4.jpg",
+        sizes: "One Size",
+        price: 64.99,
+        categoryId: 6, // New
+        colors: "green,white",
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        id: 23,
+        name: "New Silk Scarf",
+        description: "Soft silk scarf in new patterns.",
+        imageUrl: "https://adil-fashion-app-bucket.s3.us-east-2.amazonaws.com/new5.jpg",
+        sizes: "One Size",
+        price: 19.99,
+        categoryId: 6, // New
+        colors: "pink,blue",
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
     ]);
   },

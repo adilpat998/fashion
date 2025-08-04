@@ -3,6 +3,7 @@ import Layout from './Layout';
 import Splash from '../components/Splash';
 import AdminClothingManager from '../components/AdminClothingManager/AdminClothingManager';
 import RequireAdmin from './RequireAdmin';
+import ClothingDetail from '../components/ClothingDetail/ClothingDetail';
 
 export const router = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ export const router = createBrowserRouter([
             <AdminClothingManager />
           </RequireAdmin>
         ),
+      },
+      {
+        path: "/clothes/:id",
+        element: <ClothingDetail />
       }
     ],
   },

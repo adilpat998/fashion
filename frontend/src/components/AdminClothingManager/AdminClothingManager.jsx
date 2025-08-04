@@ -21,6 +21,11 @@ const AdminClothingManager = () => {
   const [categorySuccess, setCategorySuccess] = useState('');
   const [newCategory, setNewCategory] = useState('');
   const [customColor, setCustomColor] = useState("");
+  
+  // New modal states
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteItem, setDeleteItem] = useState(null);
 
   const fetchClothes = async () => {
     setLoading(true);
@@ -52,6 +57,7 @@ const AdminClothingManager = () => {
       setForm(f => ({ ...f, [name]: files ? files[0] : value }));
     }
   };
+  
   const handleEditInputChange = (e) => {
     const { name, value, files, checked } = e.target;
     if (name === 'colors') {
@@ -91,15 +97,27 @@ const AdminClothingManager = () => {
     }
   };
 
-  const handleDelete = async (id) => {
-    if (!window.confirm('Delete this clothing item?')) return;
-    const res = await fetch(`/api/clothes/${id}`, {
+  // Updated handleDelete function
+  const handleDelete = (item) => {
+    setDeleteItem(item);
+    setShowDeleteModal(true);
+  };
+
+  // New function for confirming delete
+  const confirmDelete = async () => {
+    if (!deleteItem) return;
+    const res = await fetch(`/api/clothes/${deleteItem.id}`, {
       method: 'DELETE',
       headers: { 'x-admin-token': localStorage.getItem('adminToken') }
     });
-    if (res.ok) fetchClothes();
+    if (res.ok) {
+      fetchClothes();
+      setShowDeleteModal(false);
+      setDeleteItem(null);
+    }
   };
 
+  // Updated handleEdit function
   const handleEdit = (item) => {
     setEditId(item.id);
     setEditForm({
@@ -111,9 +129,11 @@ const AdminClothingManager = () => {
       categoryId: item.categoryId || '',
       colors: item.colors ? (Array.isArray(item.colors) ? item.colors : item.colors.split(',')) : []
     });
+    setShowEditModal(true);
   };
 
-  const handleEditSubmit = async (e, id) => {
+  // Updated handleEditSubmit function
+  const handleEditSubmit = async (e) => {
     e.preventDefault();
     setError(''); setSuccess('');
     const formData = new FormData();
@@ -124,7 +144,7 @@ const AdminClothingManager = () => {
     if (editForm.image) formData.append('image', editForm.image);
     if (editForm.categoryId) formData.append('categoryId', editForm.categoryId);
     if (editForm.colors) formData.append('colors', editForm.colors.join(','));
-    const res = await fetch(`/api/clothes/${id}`, {
+    const res = await fetch(`/api/clothes/${editId}`, {
       method: 'PUT',
       headers: { 'x-admin-token': localStorage.getItem('adminToken') },
       body: formData
@@ -132,6 +152,7 @@ const AdminClothingManager = () => {
     if (res.ok) {
       setSuccess('Clothing item updated!');
       setEditId(null);
+      setShowEditModal(false);
       fetchClothes();
     } else {
       const err = await res.json();
@@ -181,6 +202,7 @@ const AdminClothingManager = () => {
       setCustomColor("");
     }
   };
+  
   const handleEditAddCustomColor = (e) => {
     e.preventDefault();
     const color = customColor.trim().toLowerCase();
@@ -192,7 +214,8 @@ const AdminClothingManager = () => {
 
   return (
     <div className="admin-manager-root">
-      <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1.2em', marginBottom: '1.5em' }}>
+      {/* Updated Navigation */}
+      <div className="admin-nav-container">
         <button className="admin-nav-btn" onClick={() => navigate('/')}>Home</button>
         <button className="admin-nav-btn" onClick={() => {
           localStorage.removeItem('adminToken');
@@ -200,8 +223,10 @@ const AdminClothingManager = () => {
           window.location.reload();
         }}>Logout</button>
       </div>
+
       <h1 className="splash-header">Shadmani Fashion</h1>
       <h2>Manage Clothing</h2>
+      
       {/* Category Management Section */}
       <div className="category-manager">
         <h3>Manage Categories</h3>
@@ -230,121 +255,218 @@ const AdminClothingManager = () => {
           ))}
         </div>
       </div>
+
       {/* Clothing Management Section */}
+
       <button onClick={() => setShowForm(f => !f)} className="add-btn">{showForm ? 'Cancel' : 'Add New Clothing'}</button>
+
+      {/* Add Clothing Modal */}
       {showForm && (
-        <form className="add-form" onSubmit={handleAddClothing}>
-          <input name="name" value={form.name} onChange={handleInputChange} placeholder="Name" required />
-          <input name="description" value={form.description} onChange={handleInputChange} placeholder="Description" required />
-          <input name="sizes" value={form.sizes} onChange={handleInputChange} placeholder="Sizes (e.g. S,M,L)" required />
-          <input name="price" value={form.price} onChange={handleInputChange} placeholder="Price" type="number" step="0.01" required />
-          <select name="categoryId" value={form.categoryId} onChange={handleInputChange} required>
-            <option value="" disabled>Select category</option>
-            {[...categories].sort((a, b) => {
-              if (a.name.toLowerCase() === 'new') return -1;
-              if (b.name.toLowerCase() === 'new') return 1;
-              return a.name.localeCompare(b.name);
-            }).map(category => (
-              <option key={category.id} value={category.id}>{category.name}</option>
-            ))}
-          </select>
-          <div className="color-select-row">
-            <label style={{fontWeight:'bold'}}>Colors:</label>
-            {BASIC_COLORS.map(color => (
-              <label key={color} style={{ marginRight: '0.7em' }}>
-                <input
-                  type="checkbox"
-                  name="colors"
-                  value={color}
-                  checked={form.colors.includes(color)}
-                  onChange={handleInputChange}
-                /> {color.charAt(0).toUpperCase() + color.slice(1)}
-              </label>
-            ))}
-            <form onSubmit={handleAddCustomColor} style={{ display: 'inline-block', marginLeft: '1em' }}>
-              <input
-                type="text"
-                value={customColor}
-                onChange={e => setCustomColor(e.target.value)}
-                placeholder="Add color"
-                style={{ width: '90px', fontSize: '1em', borderRadius: '6px', border: '1px solid #ccc', marginRight: '0.3em' }}
-              />
-              <button type="submit" style={{ fontSize: '1em', borderRadius: '6px', border: '1px solid #bfa14a', background: '#fffbe6', color: '#bfa14a', padding: '0.2em 0.7em', cursor: 'pointer' }}>Add</button>
-            </form>
+        <div className="modal-overlay" onClick={() => setShowForm(false)}>
+          <div className="modal" onClick={e => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>Add New Clothing</h3>
+              <button className="modal-close" onClick={() => setShowForm(false)}>×</button>
+            </div>
+            <div className="modal-content">
+              <form className="modal-form" onSubmit={handleAddClothing}>
+                <input name="name" value={form.name} onChange={handleInputChange} placeholder="Name" required />
+                <input name="description" value={form.description} onChange={handleInputChange} placeholder="Description" required />
+                <input name="sizes" value={form.sizes} onChange={handleInputChange} placeholder="Sizes (e.g. S,M,L)" required />
+                <input name="price" value={form.price} onChange={handleInputChange} placeholder="Price" type="number" step="0.01" required />
+                <select name="categoryId" value={form.categoryId} onChange={handleInputChange} required>
+                  <option value="" disabled>Select category</option>
+                  {[...categories].sort((a, b) => {
+                    if (a.name.toLowerCase() === 'new') return -1;
+                    if (b.name.toLowerCase() === 'new') return 1;
+                    return a.name.localeCompare(b.name);
+                  }).map(category => (
+                    <option key={category.id} value={category.id}>{category.name}</option>
+                  ))}
+                </select>
+                <div className="color-select-row">
+                  <label>Colors:</label>
+                  <div className="color-checkboxes">
+                    {BASIC_COLORS.map(color => (
+                      <label key={color}>
+                        <input
+                          type="checkbox"
+                          name="colors"
+                          value={color}
+                          checked={form.colors.includes(color)}
+                          onChange={handleInputChange}
+                        /> {color.charAt(0).toUpperCase() + color.slice(1)}
+                      </label>
+                    ))}
+                  </div>
+                  <div className="custom-color-form">
+                    <input
+                      type="text"
+                      value={customColor}
+                      onChange={e => setCustomColor(e.target.value)}
+                      placeholder="Add color"
+                    />
+                    <button type="button" onClick={handleAddCustomColor}>Add</button>
+                  </div>
+                </div>
+                <input name="image" type="file" accept="image/*" onChange={handleInputChange} />
+                <div className="modal-actions">
+                  <button type="button" className="btn-secondary" onClick={() => setShowForm(false)}>Cancel</button>
+                  <button type="submit" className="btn-primary">Add</button>
+                </div>
+                {error && <div className="error">{error}</div>}
+                {success && <div className="success">{success}</div>}
+              </form>
+            </div>
           </div>
-          <input name="image" type="file" accept="image/*" onChange={handleInputChange} />
-          <button type="submit">Add</button>
-          {error && <div className="error">{error}</div>}
-          {success && <div className="success">{success}</div>}
-        </form>
+        </div>
       )}
+
       {loading ? <p>Loading...</p> : (
         <div className="clothes-list">
           {clothes.map(item => (
             <div className="clothing-admin-card" key={item.id}>
               <img src={item.imageUrl || (item.images && item.images[0]?.imageUrl) || 'https://via.placeholder.com/220x260?text=No+Image'} alt={item.name} />
-              {editId === item.id ? (
-                <form className="edit-form" onSubmit={e => handleEditSubmit(e, item.id)}>
-                  <input name="name" value={editForm.name} onChange={handleEditInputChange} placeholder="Name" required />
-                  <input name="description" value={editForm.description} onChange={handleEditInputChange} placeholder="Description" required />
-                  <input name="sizes" value={editForm.sizes} onChange={handleEditInputChange} placeholder="Sizes (e.g. S,M,L)" required />
-                  <input name="price" value={editForm.price} onChange={handleEditInputChange} placeholder="Price" type="number" step="0.01" required />
-                  <select name="categoryId" value={editForm.categoryId} onChange={handleEditInputChange} required>
-                    <option value="" disabled>Select category</option>
-                    {[...categories].sort((a, b) => {
-                      if (a.name.toLowerCase() === 'new') return -1;
-                      if (b.name.toLowerCase() === 'new') return 1;
-                      return a.name.localeCompare(b.name);
-                    }).map(category => (
-                      <option key={category.id} value={category.id}>{category.name}</option>
-                    ))}
-                  </select>
-                  <div className="color-select-row">
-                    <label style={{fontWeight:'bold'}}>Colors:</label>
+              {/* Removed inline edit form - now only shows item details */}
+              <div><b>{item.name}</b></div>
+              <div>{item.description}</div>
+              <div>Sizes: {item.sizes}</div>
+              <div>Price: ${Number(item.price).toFixed(2)}</div>
+              <div>Category: {categories.find(c => c.id === item.categoryId)?.name || 'None'}</div>
+              <div>Colors: {(item.colors ? (Array.isArray(item.colors) ? item.colors : item.colors.split(',')) : []).join(', ')}</div>
+              <button className="edit-btn" onClick={() => handleEdit(item)}>Edit</button>
+              <button className="delete-btn" onClick={() => handleDelete(item)}>Delete</button>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Edit Modal */}
+      {showEditModal && (
+        <div className="modal-overlay" onClick={() => setShowEditModal(false)}>
+          <div className="modal" onClick={e => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>Edit Clothing Item</h3>
+              <button className="modal-close" onClick={() => setShowEditModal(false)}>×</button>
+            </div>
+            <div className="modal-content">
+              <form className="modal-form" onSubmit={handleEditSubmit}>
+                <input 
+                  name="name" 
+                  value={editForm.name} 
+                  onChange={handleEditInputChange} 
+                  placeholder="Name" 
+                  required 
+                />
+                <input 
+                  name="description" 
+                  value={editForm.description} 
+                  onChange={handleEditInputChange} 
+                  placeholder="Description" 
+                  required 
+                />
+                <input 
+                  name="sizes" 
+                  value={editForm.sizes} 
+                  onChange={handleEditInputChange} 
+                  placeholder="Sizes (e.g. S,M,L)" 
+                  required 
+                />
+                <input 
+                  name="price" 
+                  value={editForm.price} 
+                  onChange={handleEditInputChange} 
+                  placeholder="Price" 
+                  type="number" 
+                  step="0.01" 
+                  required 
+                />
+                <select name="categoryId" value={editForm.categoryId} onChange={handleEditInputChange} required>
+                  <option value="" disabled>Select category</option>
+                  {[...categories].sort((a, b) => {
+                    if (a.name.toLowerCase() === 'new') return -1;
+                    if (b.name.toLowerCase() === 'new') return 1;
+                    return a.name.localeCompare(b.name);
+                  }).map(category => (
+                    <option key={category.id} value={category.id}>{category.name}</option>
+                  ))}
+                </select>
+                <div className="color-select-row">
+                  <label>Colors:</label>
+                  <div className="color-checkboxes">
                     {BASIC_COLORS.map(color => (
-                      <label key={color} style={{ marginRight: '0.7em' }}>
+                      <label key={color}>
                         <input
                           type="checkbox"
                           name="colors"
                           value={color}
                           checked={editForm.colors.includes(color)}
                           onChange={handleEditInputChange}
-                        /> {color.charAt(0).toUpperCase() + color.slice(1)}
+                        />
+                        {color.charAt(0).toUpperCase() + color.slice(1)}
                       </label>
                     ))}
-                    <form onSubmit={handleEditAddCustomColor} style={{ display: 'inline-block', marginLeft: '1em' }}>
-                      <input
-                        type="text"
-                        value={customColor}
-                        onChange={e => setCustomColor(e.target.value)}
-                        placeholder="Add color"
-                        style={{ width: '90px', fontSize: '1em', borderRadius: '6px', border: '1px solid #ccc', marginRight: '0.3em' }}
-                      />
-                      <button type="submit" style={{ fontSize: '1em', borderRadius: '6px', border: '1px solid #bfa14a', background: '#fffbe6', color: '#bfa14a', padding: '0.2em 0.7em', cursor: 'pointer' }}>Add</button>
-                    </form>
                   </div>
-                  <input name="image" type="file" accept="image/*" onChange={handleEditInputChange} />
-                  <button type="submit">Save</button>
-                  <button type="button" onClick={() => setEditId(null)}>Cancel</button>
-                </form>
-              ) : (
-                <>
-                  <div><b>{item.name}</b></div>
-                  <div>{item.description}</div>
-                  <div>Sizes: {item.sizes}</div>
-                  <div>Price: ${Number(item.price).toFixed(2)}</div>
-                  <div>Category: {categories.find(c => c.id === item.categoryId)?.name || 'None'}</div>
-                  <div>Colors: {(item.colors ? (Array.isArray(item.colors) ? item.colors : item.colors.split(',')) : []).join(', ')}</div>
-                  <button className="edit-btn" onClick={() => handleEdit(item)}>Edit</button>
-                  <button className="delete-btn" onClick={() => handleDelete(item.id)}>Delete</button>
-                </>
-              )}
+                  <div className="custom-color-form">
+                    <input
+                      type="text"
+                      value={customColor}
+                      onChange={e => setCustomColor(e.target.value)}
+                      placeholder="Add custom color"
+                    />
+                    <button type="button" onClick={handleEditAddCustomColor}>Add</button>
+                  </div>
+                </div>
+                <input name="image" type="file" accept="image/*" onChange={handleEditInputChange} />
+                {error && <div className="error">{error}</div>}
+                {success && <div className="success">{success}</div>}
+                <div className="modal-actions">
+                  <button type="button" className="btn-secondary" onClick={() => setShowEditModal(false)}>Cancel</button>
+                  <button type="submit" className="btn-primary">Save Changes</button>
+                </div>
+              </form>
             </div>
-          ))}
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && deleteItem && (
+        <div className="modal-overlay delete-modal" onClick={() => setShowDeleteModal(false)}>
+          <div className="modal" onClick={e => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>Confirm Delete</h3>
+              <button className="modal-close" onClick={() => setShowDeleteModal(false)}>×</button>
+            </div>
+            <div className="modal-content">
+              <div className="warning-icon">⚠️</div>
+              <p>
+                Are you sure you want to delete <span className="item-name">&quot;{deleteItem.name}&quot;</span>?
+              </p>
+              <p>This action cannot be undone.</p>
+              <div className="modal-actions">
+                <button 
+                  type="button" 
+                  className="btn-secondary" 
+                  onClick={() => setShowDeleteModal(false)}
+                >
+                  Cancel
+                </button>
+                <button 
+                  type="button" 
+                  className="btn-danger" 
+                  onClick={confirmDelete}
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </div>
   );
 };
+  
 
 export default AdminClothingManager;
