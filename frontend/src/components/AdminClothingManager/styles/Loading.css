@@ -1,0 +1,7 @@
+/* Loading and list styles */
+.clothes-list {
+  margin-top: 2em;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}

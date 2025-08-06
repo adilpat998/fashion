@@ -1,0 +1,16 @@
+/* SplashHeaderNav.css: splash-header styles for nav context */
+.splash-header {
+  font-family: 'Great Vibes', 'Playfair Display', serif;
+  font-size: 3.2rem;
+  color: #bfa14a;
+  margin: 2.5rem 0 2rem 0;
+  letter-spacing: 2.5px;
+  background: var(--white);
+  border: 2.5px solid #e6c200;
+  border-radius: 22px;
+  padding: 0.7em 2.5em;
+  box-shadow: 0 4px 24px #e6c20033, 0 2px 8px var(--sage);
+  text-shadow: 0 2px 8px #fffbe6, 0 1px 2px #e6c200;
+  font-weight: 400;
+  transition: all 0.2s;
+}

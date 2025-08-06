@@ -1,0 +1,41 @@
+/* Category management section */
+.category-manager {
+  margin-bottom: 2em;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  padding: 1.5em;
+}
+.add-category-form {
+  display: flex;
+  gap: 0.5em;
+  margin-bottom: 1em;
+}
+.category-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+}
+.category-item {
+  background: #f3f3f3;
+  border-radius: 5px;
+  padding: 0.5em 1em;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+.category-name {
+  font-weight: 500;
+}
+.delete-btn {
+  background: #e57373;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.3em 0.8em;
+  cursor: pointer;
+  font-size: 0.95em;
+}
+.delete-btn:hover {
+  background: #c62828;
+}

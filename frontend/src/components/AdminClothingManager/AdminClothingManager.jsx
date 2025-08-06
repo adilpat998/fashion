@@ -1,6 +1,19 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './AdminClothingManager.css';
+
+import './styles/AdminClothingManagerRoot.css';
+import './styles/AdminNav.css';
+import './styles/CategoryManager.css';
+import './styles/ClothingAdminCard.css';
+import './styles/Modal.css';
+import './styles/ColorSelect.css';
+import './styles/Loading.css';
+import './styles/Form.css';
+import AdminClothingManagerNav from './AdminClothingManagerNav';
+import CategoryManager from './CategoryManager';
+import ClothingList from './ClothingList';
+import ClothingFormModal from './ClothingFormModal';
+import DeleteConfirmationModal from './DeleteConfirmationModal';
 
 const BASIC_COLORS = [
   'red', 'blue', 'green', 'yellow', 'black', 'white', 'pink', 'purple', 'orange', 'brown', 'gray', 'beige', 'navy', 'maroon', 'teal'
@@ -214,132 +227,53 @@ const AdminClothingManager = () => {
 
   return (
     <div className="admin-manager-root">
-      {/* Updated Navigation */}
-      <div className="admin-nav-container">
-        <button className="admin-nav-btn" onClick={() => navigate('/')}>Home</button>
-        <button className="admin-nav-btn" onClick={() => {
-          localStorage.removeItem('adminToken');
-          navigate('/');
-          window.location.reload();
-        }}>Logout</button>
-      </div>
+      {/* Navigation Bar */}
+      <AdminClothingManagerNav navigate={navigate} />
 
       <h1 className="splash-header">Shadmani Fashion</h1>
       <h2>Manage Clothing</h2>
       
       {/* Category Management Section */}
-      <div className="category-manager">
-        <h3>Manage Categories</h3>
-        <form className="add-category-form" onSubmit={handleAddCategory}>
-          <input
-            type="text"
-            placeholder="Add new category"
-            value={newCategory}
-            onChange={e => setNewCategory(e.target.value)}
-            required
-          />
-          <button type="submit">Add Category</button>
-        </form>
-        {categoryError && <div className="error">{categoryError}</div>}
-        {categorySuccess && <div className="success">{categorySuccess}</div>}
-        <div className="category-list">
-          {[...categories].sort((a, b) => {
-            if (a.name.toLowerCase() === 'new') return -1;
-            if (b.name.toLowerCase() === 'new') return 1;
-            return a.name.localeCompare(b.name);
-          }).map(category => (
-            <div className="category-item" key={category.id}>
-              <span className="category-name">{category.name}</span>
-              <button className="delete-btn" onClick={() => handleDeleteCategory(category.id)}>Delete</button>
-            </div>
-          ))}
-        </div>
-      </div>
+      <CategoryManager
+        categories={categories}
+        newCategory={newCategory}
+        setNewCategory={setNewCategory}
+        handleAddCategory={handleAddCategory}
+        handleDeleteCategory={handleDeleteCategory}
+        categoryError={categoryError}
+        categorySuccess={categorySuccess}
+      />
 
       {/* Clothing Management Section */}
-
       <button onClick={() => setShowForm(f => !f)} className="add-btn">{showForm ? 'Cancel' : 'Add New Clothing'}</button>
-
-      {/* Add Clothing Modal */}
-      {showForm && (
-        <div className="modal-overlay" onClick={() => setShowForm(false)}>
-          <div className="modal" onClick={e => e.stopPropagation()}>
-            <div className="modal-header">
-              <h3>Add New Clothing</h3>
-              <button className="modal-close" onClick={() => setShowForm(false)}>×</button>
-            </div>
-            <div className="modal-content">
-              <form className="modal-form" onSubmit={handleAddClothing}>
-                <input name="name" value={form.name} onChange={handleInputChange} placeholder="Name" required />
-                <input name="description" value={form.description} onChange={handleInputChange} placeholder="Description" required />
-                <input name="sizes" value={form.sizes} onChange={handleInputChange} placeholder="Sizes (e.g. S,M,L)" required />
-                <input name="price" value={form.price} onChange={handleInputChange} placeholder="Price" type="number" step="0.01" required />
-                <select name="categoryId" value={form.categoryId} onChange={handleInputChange} required>
-                  <option value="" disabled>Select category</option>
-                  {[...categories].sort((a, b) => {
-                    if (a.name.toLowerCase() === 'new') return -1;
-                    if (b.name.toLowerCase() === 'new') return 1;
-                    return a.name.localeCompare(b.name);
-                  }).map(category => (
-                    <option key={category.id} value={category.id}>{category.name}</option>
-                  ))}
-                </select>
-                <div className="color-select-row">
-                  <label>Colors:</label>
-                  <div className="color-checkboxes">
-                    {BASIC_COLORS.map(color => (
-                      <label key={color}>
-                        <input
-                          type="checkbox"
-                          name="colors"
-                          value={color}
-                          checked={form.colors.includes(color)}
-                          onChange={handleInputChange}
-                        /> {color.charAt(0).toUpperCase() + color.slice(1)}
-                      </label>
-                    ))}
-                  </div>
-                  <div className="custom-color-form">
-                    <input
-                      type="text"
-                      value={customColor}
-                      onChange={e => setCustomColor(e.target.value)}
-                      placeholder="Add color"
-                    />
-                    <button type="button" onClick={handleAddCustomColor}>Add</button>
-                  </div>
-                </div>
-                <input name="image" type="file" accept="image/*" onChange={handleInputChange} />
-                <div className="modal-actions">
-                  <button type="button" className="btn-secondary" onClick={() => setShowForm(false)}>Cancel</button>
-                  <button type="submit" className="btn-primary">Add</button>
-                </div>
-                {error && <div className="error">{error}</div>}
-                {success && <div className="success">{success}</div>}
-              </form>
-            </div>
-          </div>
-        </div>
-      )}
-
+      <ClothingFormModal
+        showForm={showForm}
+        setShowForm={setShowForm}
+        form={form}
+        handleInputChange={handleInputChange}
+        handleAddClothing={handleAddClothing}
+        categories={categories}
+        BASIC_COLORS={BASIC_COLORS}
+        customColor={customColor}
+        setCustomColor={setCustomColor}
+        handleAddCustomColor={handleAddCustomColor}
+        error={error}
+        success={success}
+      />
       {loading ? <p>Loading...</p> : (
-        <div className="clothes-list">
-          {clothes.map(item => (
-            <div className="clothing-admin-card" key={item.id}>
-              <img src={item.imageUrl || (item.images && item.images[0]?.imageUrl) || 'https://via.placeholder.com/220x260?text=No+Image'} alt={item.name} />
-              {/* Removed inline edit form - now only shows item details */}
-              <div><b>{item.name}</b></div>
-              <div>{item.description}</div>
-              <div>Sizes: {item.sizes}</div>
-              <div>Price: ${Number(item.price).toFixed(2)}</div>
-              <div>Category: {categories.find(c => c.id === item.categoryId)?.name || 'None'}</div>
-              <div>Colors: {(item.colors ? (Array.isArray(item.colors) ? item.colors : item.colors.split(',')) : []).join(', ')}</div>
-              <button className="edit-btn" onClick={() => handleEdit(item)}>Edit</button>
-              <button className="delete-btn" onClick={() => handleDelete(item)}>Delete</button>
-            </div>
-          ))}
-        </div>
+        <ClothingList
+          clothes={clothes}
+          categories={categories}
+          handleEdit={handleEdit}
+          handleDelete={handleDelete}
+        />
       )}
+      <DeleteConfirmationModal
+        showDeleteModal={showDeleteModal}
+        deleteItem={deleteItem}
+        setShowDeleteModal={setShowDeleteModal}
+        confirmDelete={confirmDelete}
+      />
 
       {/* Edit Modal */}
       {showEditModal && (

@@ -1,0 +1,19 @@
+/* Admin navigation bar styles */
+.admin-nav-container {
+  display: flex;
+  gap: 1em;
+  margin-bottom: 2em;
+}
+.admin-nav-btn {
+  background: #e6e6e6;
+  border: none;
+  padding: 0.7em 1.5em;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.admin-nav-btn:hover {
+  background: #d4af37;
+  color: #fff;
+}

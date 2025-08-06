@@ -1,0 +1,12 @@
+/* Match ClothingDetail background to Splash page */
+.clothing-detail-root {
+  min-height: 100vh;
+  width: 100%;
+  background: linear-gradient(90deg, #b7c9a8 0%, #b7c9a8 10%, #ffd6e0 40%, #ffd6e0 60%, #b7c9a8 90%, #b7c9a8 100%);
+  background-attachment: fixed;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+}

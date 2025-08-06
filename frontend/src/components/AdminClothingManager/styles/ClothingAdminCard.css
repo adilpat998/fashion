@@ -1,0 +1,32 @@
+/* Clothing admin card styles */
+.clothing-admin-card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  padding: 1em;
+  margin-bottom: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5em;
+}
+.clothing-admin-card img {
+  width: 120px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 0.5em;
+}
+.edit-btn {
+  background: #d4af37;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.3em 0.8em;
+  cursor: pointer;
+  font-size: 0.95em;
+  margin-right: 0.5em;
+}
+.edit-btn:hover {
+  background: #bfa233;
+}

@@ -2,6 +2,13 @@ const router = require('express').Router();
 const { Clothes, ClothesImages } = require('../../db/models');
 const adminRouter = require('./admin.js');
 
+// Get all images for a clothing item
+router.get('/clothes/:id/images', async (req, res) => {
+  const { id } = req.params;
+  const images = await ClothesImages.findAll({ where: { clothesId: id } });
+  res.json(images);
+});
+
 // Stripe setup
 const stripeSecret = process.env.STRIPE_SECRET_KEY;
 let stripe;

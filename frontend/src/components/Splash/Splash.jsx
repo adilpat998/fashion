@@ -1,6 +1,12 @@
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Splash.css';
+import './styles/SplashRoot.css';
+import './styles/ClothesGrid.css';
+import './styles/CategoryTabs.css';
+import './styles/CategorySectionTitle.css';
+import './styles/AboutSection.css';
+import './styles/AdminModal.css';
+import './styles/NavSpacer.css';
 
 const Splash = () => {
   const navigate = useNavigate();

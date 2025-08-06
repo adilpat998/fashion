@@ -1,4 +1,10 @@
-import "./Navigation.css";
+import "./styles/NavigationRoot.css";
+import "./styles/MainNav.css";
+import "./styles/NavButtons.css";
+import "./styles/CategoryTabsNav.css";
+import "./styles/GoldTopBar.css";
+import "./styles/SplashHeaderNav.css";
+import "./styles/MediaQueriesNav.css";
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 

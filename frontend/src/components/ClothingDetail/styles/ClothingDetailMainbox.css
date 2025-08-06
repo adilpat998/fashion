@@ -1,0 +1,24 @@
+/* Styles for the main clothing detail box */
+.clothing-detail-mainbox {
+  background: #fff;
+  border-radius: 22px;
+  box-shadow: 0 4px 24px #e6c20033, 0 2px 8px var(--sage);
+  padding: 2.5rem 2.5rem 2.2rem 2.5rem;
+  margin-bottom: 2.5rem;
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+}
+
+.section-label {
+  font-family: 'Playfair Display', 'Montserrat', serif;
+  font-size: 2.1rem;
+  color: #bfa14a;
+  margin-bottom: 1.5rem;
+  letter-spacing: 1.5px;
+  font-weight: 600;
+  text-align: center;
+}

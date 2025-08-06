@@ -1,0 +1,41 @@
+/* CategoryTabsNav.css: category-tabs-row, nav-category-tabs-row, nav-category-tabs-row-spaced, category-tab */
+.category-tabs-row, .nav-category-tabs-row, .nav-category-tabs-row-spaced {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.2em;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  width: 100%;
+  background: transparent;
+  z-index: 150;
+  border-bottom: 3px solid #fff;
+  padding-bottom: 0 !important;
+  line-height: 1;
+  position: relative;
+  top: 0;
+}
+.category-tab {
+  background: linear-gradient(90deg, #fffbe6 60%, #e6c200 100%);
+  color: #bfa14a;
+  border: none;
+  border-radius: 999px;
+  padding: 0.5em 1.5em;
+  font-size: 1.08rem;
+  font-family: inherit;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(176, 141, 87, 0.13);
+  margin: 0;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+}
+.category-tab:hover, .category-tab:focus {
+  background: linear-gradient(90deg, #e6c200 60%, #fffbe6 100%);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(191, 161, 74, 0.18);
+}
+.nav-category-tabs-row-spaced {
+  margin-top: 2em !important;
+  margin-bottom: 0 !important;
+}

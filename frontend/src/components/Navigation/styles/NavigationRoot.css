@@ -1,0 +1,11 @@
+/* NavigationRoot.css: navigation-root, navigation-bg, html/body overflow */
+.navigation-root, .navigation-bg {
+  width: 100%;
+  background: linear-gradient(90deg, #b7c9a8 0%, #b7c9a8 10%, #ffd6e0 40%, #ffd6e0 60%, #b7c9a8 90%, #b7c9a8 100%);
+  background-attachment: fixed;
+  background-size: cover;
+  box-sizing: border-box;
+}
+html, body {
+  overflow-x: hidden;
+}

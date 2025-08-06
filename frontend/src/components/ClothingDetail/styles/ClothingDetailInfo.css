@@ -1,0 +1,47 @@
+/* Info section styles */
+.clothing-detail-info {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 0.9rem 1.5rem;
+  font-size: 1.35rem;
+  font-family: 'Montserrat', 'Playfair Display', serif;
+  color: #222;
+  margin-bottom: 0.5rem;
+}
+.item-label {
+  font-weight: 600;
+  color: #bfa14a;
+  font-family: 'Playfair Display', 'Montserrat', serif;
+  font-size: 1.18rem;
+  align-self: center;
+}
+.item-value {
+  font-weight: 400;
+  color: #222;
+  font-family: 'Montserrat', 'Playfair Display', serif;
+  font-size: 1.18rem;
+  align-self: center;
+}
+.item-name {
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: #222;
+  letter-spacing: 0.5px;
+}
+.item-desc {
+  color: #666;
+  font-size: 1.18rem;
+  font-weight: 400;
+}
+.item-price {
+  color: #bfa14a;
+  font-size: 1.22rem;
+  font-weight: 600;
+}
+.item-sizes, .item-colors {
+  color: #444;
+  letter-spacing: 0.08em;
+  word-spacing: 0.5em;
+  font-size: 1.18rem;
+}

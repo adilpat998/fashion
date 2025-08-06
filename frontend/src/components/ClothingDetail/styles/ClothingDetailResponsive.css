@@ -1,0 +1,89 @@
+/* Responsive styles for mobile and tablet */
+@media (max-width: 900px) {
+  .clothing-detail-mainbox {
+    padding: 1.2rem 0.5rem 1.2rem 0.5rem;
+    max-width: 100vw;
+    border-radius: 14px;
+    gap: 1.2rem;
+  }
+  .clothing-detail-images {
+    gap: 0.7rem;
+    margin-bottom: 1.2rem;
+  }
+  .clothing-detail-img {
+    width: 90vw;
+    height: 260px;
+    border-radius: 10px;
+    font-size: 1rem;
+  }
+  .clothing-detail-info {
+    grid-template-columns: 1fr;
+    font-size: 1.08rem;
+    gap: 0.5rem 0.7rem;
+  }
+  .item-label, .item-value {
+    font-size: 1rem;
+  }
+  .item-name {
+    font-size: 1.15rem;
+  }
+  .section-label {
+    font-size: 1.3rem;
+    margin-bottom: 0.7rem;
+  }
+  .clothing-detail-actions {
+    flex-direction: column;
+    gap: 0.7rem;
+    align-items: flex-start;
+  }
+  .buy-btn, .share-btn {
+    width: 100%;
+    padding: 0.7em 0.5em;
+    font-size: 1rem;
+  }
+  .clothing-detail-related-list {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1.2rem 1.2rem;
+    padding: 1.2rem 0 0.7rem 0;
+  }
+  .clothing-detail-related-list .clothing-card {
+    width: 100%;
+    min-width: 120px;
+  }
+  .clothing-detail-related-list .clothing-image {
+    height: 160px;
+  }
+  .clothing-detail-root {
+    padding: 0.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .clothing-detail-mainbox {
+    padding: 0.5rem 0.2rem 0.5rem 0.2rem;
+    border-radius: 8px;
+    gap: 0.5rem;
+  }
+  .clothing-detail-img {
+    height: 140px;
+    border-radius: 6px;
+  }
+  .section-label {
+    font-size: 1.05rem;
+  }
+  .clothing-detail-actions {
+    gap: 0.5rem;
+  }
+  .buy-btn, .share-btn {
+    font-size: 0.95rem;
+    padding: 0.5em 0.2em;
+  }
+  .clothing-detail-related-list {
+    grid-template-columns: 1fr;
+    gap: 0.7rem 0.7rem;
+    padding: 0.7rem 0 0.3rem 0;
+  }
+  .clothing-detail-related-list .clothing-image {
+    height: 90px;
+  }
+}

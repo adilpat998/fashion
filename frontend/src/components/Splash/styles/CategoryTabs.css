@@ -1,0 +1,81 @@
+/* CategoryTabs.css: Styles for category tabs and genre tabs */
+.category-tabs-row, .nav-category-tabs-row, .nav-category-tabs-row-spaced {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto 0.7rem auto;
+  padding: 0.18rem 0 0.18rem 0;
+  position: relative;
+  z-index: 10;
+  gap: 0.5rem;
+  overflow-x: auto;
+  white-space: nowrap;
+  border-bottom: 1.5px solid #ececec;
+  background: none;
+  flex-wrap: nowrap;
+  scrollbar-width: none;
+}
+.category-tabs-row::-webkit-scrollbar {
+  display: none;
+}
+.category-tab {
+  background: #fff;
+  color: #b08d57;
+  border: 1.5px solid #ececec;
+  border-radius: 18px 18px 0 0;
+  font-family: 'Montserrat', 'Playfair Display', serif, sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 0.7em 2.2em;
+  margin: 0;
+  cursor: pointer;
+  transition: background 0.16s, color 0.16s, border-color 0.16s, padding 0.16s;
+  box-shadow: 0 2px 8px rgba(183, 201, 168, 0.08);
+  white-space: nowrap;
+  flex-shrink: 1;
+  min-width: 0;
+  padding-left: clamp(0.7em, 2vw, 2.2em);
+  padding-right: clamp(0.7em, 2vw, 2.2em);
+}
+.category-tab.selected, .category-tab:active {
+  background: #f7c6d9;
+  color: #bfa14a;
+  border-color: #e6c200;
+  z-index: 2;
+}
+.category-tab:hover {
+  background: #fffbe6;
+  color: #e6c200;
+  border-color: #e6c200;
+}
+@media (max-width: 700px) {
+  .category-tab {
+    padding: 0.38em 0.6em;
+    font-size: 0.74rem;
+    letter-spacing: 0.01em;
+    max-width: 44vw;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .category-tabs-row, .nav-category-tabs-row, .nav-category-tabs-row-spaced {
+    margin-bottom: 0.3rem;
+    padding: 0.08rem 0 0.08rem 0;
+    min-height: 32px;
+  }
+}
+.genre-tab {
+  min-width: 0;
+  padding-left: clamp(0.7em, 2vw, 2.2em);
+  padding-right: clamp(0.7em, 2vw, 2.2em);
+}
+@media (max-width: 700px) {
+  .genre-tab {
+    padding: 0.7em 1.1em;
+    font-size: 1rem;
+  }
+}

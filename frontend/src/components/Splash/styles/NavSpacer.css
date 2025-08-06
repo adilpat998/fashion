@@ -1,0 +1,14 @@
+/* NavSpacer.css: Styles for nav spacer */
+.nav-spacer {
+  width: 100vw;
+  min-height: 90px;
+  height: 222px;
+  background: transparent;
+  display: block;
+}
+@media (max-width: 600px) {
+  .nav-spacer {
+    min-height: 32px;
+    height: 44px;
+  }
+}

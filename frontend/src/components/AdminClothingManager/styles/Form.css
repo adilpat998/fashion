@@ -1,0 +1,13 @@
+/* Form styles for add/edit clothing */
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+.modal-form input,
+.modal-form select {
+  padding: 0.5em;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 1em;
+}
